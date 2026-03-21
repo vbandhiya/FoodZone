@@ -29,7 +29,12 @@ app.use('/api/food', foodRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Serverless strict connection wrapper (Vercel Node.js compatibility)
+if (process.env.NODE_ENV !== 'production' || process.env.RENDER) {
+  app.listen(PORT, () => {
+    console.log(`Server is running natively on port ${PORT}`);
+  });
+}
+
+// Export strictly for Vercel Serverless Runtime
+module.exports = app;
