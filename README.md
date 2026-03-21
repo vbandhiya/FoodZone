@@ -59,7 +59,7 @@ npm run dev
 
 ---
 
-## 🎯 Final Submission Guide (Viva Support)
+## 🎯 Final Submission Guide 
 When presenting this in your viva, be sure to highlight:
 1. **Component Reusability:** Emphasize how `FoodItemCard` and `RestaurantCard` are fed by centralized data sources.
 2. **State Management:** Explain that Zustand is utilized over Redux to remove boilerplate while still offering pure state synchronization (useful for the Cart Badge in the Navbar).
