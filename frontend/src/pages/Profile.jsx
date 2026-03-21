@@ -86,7 +86,7 @@ const Profile = () => {
       const fetchFavorites = async () => {
         try {
           setLoading(true);
-          const res = await fetch('http://localhost:5000/api/restaurants');
+          const res = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/restaurants`);
           if (res.ok) {
             const allRestaurants = await res.json();
             const filtered = allRestaurants.filter(r => favorites.includes(r.id));

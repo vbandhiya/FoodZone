@@ -12,7 +12,7 @@ export const useDataStore = create((set, get) => ({
     
     set({ isLoadingRestaurants: true });
     try {
-      const res = await fetch('http://localhost:5000/api/restaurants');
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/restaurants`);
       if (res.ok) {
         const data = await res.json();
         set({ restaurants: data });
@@ -30,7 +30,7 @@ export const useDataStore = create((set, get) => ({
 
     set({ isLoadingFoods: true });
     try {
-      const res = await fetch('http://localhost:5000/api/food');
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/food`);
       if (res.ok) {
         const data = await res.json();
         set({ foods: data });

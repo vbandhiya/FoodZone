@@ -37,7 +37,7 @@ const AdminDashboard = () => {
     else setRefreshing(true);
     
     try {
-      const baseUrl = 'http://localhost:5000/api/admin';
+      const baseUrl = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/admin`;
       
       // Fetch stats and actual data based on tab
       const [statsRes, activeDataRes] = await Promise.all([
