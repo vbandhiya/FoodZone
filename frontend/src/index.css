@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-500: #f97316;
+  --color-primary-600: #ea580c;
+  --color-accent-500: #f43f5e;
+  
+  --font-sans: 'Poppins', 'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased font-sans transition-colors duration-300;
+  }
+  
+  /* Global & Isolated Dark Mode Overrides */
+  html.dark body, .admin-dark {
+    @apply bg-[#0f172a] text-slate-200;
+    color-scheme: dark;
+  }
+
+  :is(html.dark, .admin-dark) .bg-gray-50, 
+  :is(html.dark, .admin-dark) .bg-gray-50\/50,
+  :is(html.dark, .admin-dark) main {
+    background-color: #0f172a !important;
+  }
+
+  :is(html.dark, .admin-dark) .bg-white {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+  }
+
+  :is(html.dark, .admin-dark) .text-gray-900,
+  :is(html.dark, .admin-dark) .text-gray-800,
+  :is(html.dark, .admin-dark) .text-gray-700,
+  :is(html.dark, .admin-dark) h1,
+  :is(html.dark, .admin-dark) h2,
+  :is(html.dark, .admin-dark) h3,
+  :is(html.dark, .admin-dark) h4 {
+    color: #f8fafc !important;
+  }
+
+  :is(html.dark, .admin-dark) .text-gray-500,
+  :is(html.dark, .admin-dark) .text-gray-600,
+  :is(html.dark, .admin-dark) .text-gray-400 {
+    color: #94a3b8 !important;
+  }
+
+  :is(html.dark, .admin-dark) .border-gray-100,
+  :is(html.dark, .admin-dark) .border-gray-200,
+  :is(html.dark, .admin-dark) .border-gray-50 {
+    border-color: #334155 !important;
+  }
+
+  :is(html.dark, .admin-dark) .bg-gray-100 {
+    background-color: #334155 !important;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Micro-animations */
+.hover-card-effect {
+  @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl;
+}
