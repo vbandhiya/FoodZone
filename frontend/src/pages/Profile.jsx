@@ -27,15 +27,24 @@ const Profile = () => {
   const { theme, setTheme, notifications, toggleNotifications, userName, userPhone, setUserInfo } = useSettingsStore();
   const [localName, setLocalName] = useState(userName || currentUser?.name || '');
   const [localPhone, setLocalPhone] = useState(userPhone || '');
+  
+  // Local UI-preview settings buffers (Do not trigger global changes until Explicitly Saved)
+  const [localTheme, setLocalTheme] = useState(theme);
+  const [localNotifications, setLocalNotifications] = useState(notifications);
 
   useEffect(() => {
     if (userName) setLocalName(userName);
     if (userPhone) setLocalPhone(userPhone);
-  }, [userName, userPhone]);
+    setLocalTheme(theme);
+    setLocalNotifications(notifications);
+  }, [userName, userPhone, theme, notifications]);
 
   const handleSaveSettings = () => {
     setUserInfo(localName, localPhone);
-    toast.success("Settings saved successfully! ✨");
+    // Physically commit the delayed generic settings directly to the Global App Theme Engine
+    if(localTheme !== theme) setTheme(localTheme);
+    if(localNotifications !== notifications) toggleNotifications();
+    toast.success("Settings saved! 🚀 Themes securely applied.");
   };
 
   const handleAddressSubmit = (e) => {
@@ -328,39 +337,39 @@ const Profile = () => {
                     <Moon className="w-5 h-5 text-primary-600" /> Vibe Check & Experience
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="bg-gray-50 p-6 rounded-3xl border border-gray-100 flex items-center justify-between">
+                    <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-3xl border border-gray-100 dark:border-gray-800 flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="p-3 bg-white rounded-2xl shadow-sm text-gray-600">
-                          {theme === 'dark' ? <Moon className="w-6 h-6" /> : <Sun className="w-6 h-6" />}
+                        <div className="p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm text-gray-600 dark:text-gray-300">
+                          {localTheme === 'dark' ? <Moon className="w-6 h-6" /> : <Sun className="w-6 h-6" />}
                         </div>
                         <div>
-                          <p className="font-bold text-gray-900">Dark Mode</p>
-                          <p className="text-xs text-gray-500">Easier on the eyes</p>
+                          <p className="font-bold text-gray-900 dark:text-white">Dark Mode</p>
+                          <p className="text-xs text-gray-500">Easier on the eyes (Preview mode)</p>
                         </div>
                       </div>
                       <button 
-                        onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                        className={`w-14 h-8 rounded-full relative transition-colors duration-300 outline-none ${theme === 'dark' ? 'bg-primary-600' : 'bg-gray-300'}`}
+                        onClick={() => setLocalTheme(localTheme === 'light' ? 'dark' : 'light')}
+                        className={`w-14 h-8 rounded-full relative transition-colors duration-300 outline-none ${localTheme === 'dark' ? 'bg-primary-600' : 'bg-gray-300'}`}
                       >
-                        <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 ${theme === 'dark' ? 'translate-x-7' : 'translate-x-1'}`}></div>
+                        <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 ${localTheme === 'dark' ? 'translate-x-7' : 'translate-x-1'}`}></div>
                       </button>
                     </div>
 
-                    <div className="bg-gray-50 p-6 rounded-3xl border border-gray-100 flex items-center justify-between">
+                    <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-3xl border border-gray-100 dark:border-gray-800 flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="p-3 bg-white rounded-2xl shadow-sm text-gray-600">
+                        <div className="p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm text-gray-600 dark:text-gray-300">
                           <Bell className="w-6 h-6" />
                         </div>
                         <div>
-                          <p className="font-bold text-gray-900">Notifications</p>
-                          <p className="text-xs text-gray-500">Order updates & hype</p>
+                          <p className="font-bold text-gray-900 dark:text-white">Notifications</p>
+                          <p className="text-xs text-gray-500">Order updates & hype (Preview)</p>
                         </div>
                       </div>
                       <button 
-                        onClick={toggleNotifications}
-                        className={`w-14 h-8 rounded-full relative transition-colors duration-300 outline-none ${notifications ? 'bg-primary-600' : 'bg-gray-300'}`}
+                        onClick={() => setLocalNotifications(!localNotifications)}
+                        className={`w-14 h-8 rounded-full relative transition-colors duration-300 outline-none ${localNotifications ? 'bg-primary-600' : 'bg-gray-300'}`}
                       >
-                        <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 ${notifications ? 'translate-x-7' : 'translate-x-1'}`}></div>
+                        <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 ${localNotifications ? 'translate-x-7' : 'translate-x-1'}`}></div>
                       </button>
                     </div>
                   </div>

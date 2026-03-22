@@ -18,15 +18,6 @@ const AdminDashboard = () => {
   const [orderStatusFilter, setOrderStatusFilter] = useState('All');
   const [refreshing, setRefreshing] = useState(false);
 
-  // Force Admin Dashboard into explicitly Light mode by default, 
-  // overriding any global 'dark' class set by App.jsx
-  useEffect(() => {
-    document.documentElement.classList.remove('dark');
-    
-    // We intentionally do not restore it on unmount here because App.jsx uses 
-    // a reactive useEffect on `theme` which will naturally restore it when needed.
-  }, []);
-
   // Form states
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formData, setFormData] = useState({});
