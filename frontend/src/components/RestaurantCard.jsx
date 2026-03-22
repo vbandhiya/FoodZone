@@ -36,7 +36,8 @@ const RestaurantCard = ({ restaurant }) => {
         <img 
           src={restaurant.image || "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80"} 
           alt={restaurant.name} 
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
+          loading="lazy"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out bg-gray-100"
         />
         <div className="absolute top-4 left-4 flex flex-col gap-2">
           <span className="bg-white/90 backdrop-blur-md text-gray-900 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">

@@ -38,7 +38,7 @@ const FoodItemCard = ({ item }) => {
         <p className="text-sm text-gray-500 line-clamp-2">{item.description}</p>
       </div>
       <div className="flex flex-col items-center justify-center relative w-32 h-32 flex-shrink-0">
-        <img src={item.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80"} alt={item.name} className="w-full h-full object-cover rounded-xl" />
+        <img src={item.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80"} alt={item.name} loading="lazy" className="w-full h-full object-cover rounded-xl" />
         
         {isAdmin ? (
           <div className="absolute -bottom-3 bg-gray-900 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1 border border-gray-800">
