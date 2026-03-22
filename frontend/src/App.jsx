@@ -1,5 +1,13 @@
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 import { useSettingsStore } from './store/settingsStore';
 import { useAuth } from './context/AuthContext';
 import { useDataStore } from './store/dataStore';
@@ -53,6 +61,7 @@ function App() {
   return (
     // The main layout wrapper
     <div className="flex flex-col min-h-screen">
+      <ScrollToTop />
       <Navbar /> {/* Displayed on top of every page */}
       
       <main className="flex-grow">
