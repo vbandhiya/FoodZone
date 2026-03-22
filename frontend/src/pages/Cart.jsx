@@ -268,12 +268,10 @@ const Cart = () => {
               onClick={() => {
                 setOrderConfirmation(null);
                 clearCart();
-                toast.success("Order tracking available in your profile");
-                navigate('/profile');
               }}
               className="w-full bg-green-600 text-white py-4 rounded-xl font-bold hover:bg-green-500 transition shadow-lg shadow-green-500/30 cursor-pointer overflow-hidden relative group"
             >
-              <span className="relative z-10">Awesome, back to Profile!</span>
+              <span className="relative z-10">OK</span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </button>
           </div>
