@@ -17,6 +17,7 @@ const Cart = () => {
   const [showSavedAddresses, setShowSavedAddresses] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState('COD');
   const [placingOrder, setPlacingOrder] = useState(false);
+  const [orderConfirmation, setOrderConfirmation] = useState(null); // Success Modal State
 
   useEffect(() => {
     if (step === 'checkout' && !address) {
@@ -58,9 +59,7 @@ const Cart = () => {
       });
 
       if (res.ok) {
-        toast.success("Order Placed Successfully! 🎉");
-        clearCart();
-        navigate('/profile');
+        setOrderConfirmation(orderPayload); // Trigger the gorgeous Receipt Modal!
       } else {
         const err = await res.json();
         toast.error("Failed to place order: " + (err.error || "Unknown"));
@@ -226,6 +225,60 @@ const Cart = () => {
           </div>
         </div>
       </div>
+
+      {orderConfirmation && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in cursor-default">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 relative flex flex-col items-center text-center animate-in zoom-in duration-300">
+            <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6 shadow-inner">
+              <Check className="w-10 h-10 stroke-[3]" />
+            </div>
+            <h2 className="text-2xl font-black text-gray-900 mb-2">Order Placed Successfully!</h2>
+            <p className="text-gray-500 mb-8 text-sm">Thank you for dining with Food Zone. Your delicious meal is being prepared right now.</p>
+            
+            <div className="bg-gray-50 w-full rounded-2xl p-6 text-left space-y-4 mb-8 border border-gray-100 shadow-sm overflow-y-auto max-h-[35vh]">
+              <div>
+                <p className="text-xs uppercase text-gray-400 font-bold tracking-wider mb-1">Customer Details</p>
+                <p className="font-bold text-gray-800 text-sm">{orderConfirmation.userName}</p>
+                <p className="text-xs text-gray-500 mt-1 uppercase leading-snug">{orderConfirmation.address}</p>
+              </div>
+              <div className="border-t border-gray-200 pt-4">
+                <p className="text-xs uppercase text-gray-400 font-bold tracking-wider mb-3 flex justify-between">
+                  <span>Order Highlights</span>
+                  <span>{orderConfirmation.items.length} Items</span>
+                </p>
+                <div className="space-y-3">
+                  {orderConfirmation.items.map((item, i) => (
+                    <div key={i} className="flex justify-between items-start text-sm gap-4">
+                      <span className="text-gray-700 font-medium leading-snug break-words flex-1">
+                        <span className="font-bold text-gray-400 mr-2">{item.quantity}x</span> 
+                        {item.name}
+                      </span>
+                      <span className="text-gray-900 font-bold whitespace-nowrap">&#8377; {item.price * item.quantity}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="border-t border-gray-300 pt-5 flex justify-between items-center mt-2">
+                <span className="font-bold text-gray-600 uppercase text-xs tracking-wider">Total Paid (COD)</span>
+                <span className="font-black text-green-600 text-2xl">&#8377; {orderConfirmation.totalPrice}</span>
+              </div>
+            </div>
+
+            <button 
+              onClick={() => {
+                setOrderConfirmation(null);
+                clearCart();
+                toast.success("Order tracking available in your profile");
+                navigate('/profile');
+              }}
+              className="w-full bg-green-600 text-white py-4 rounded-xl font-bold hover:bg-green-500 transition shadow-lg shadow-green-500/30 cursor-pointer overflow-hidden relative group"
+            >
+              <span className="relative z-10">Awesome, back to Profile!</span>
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
